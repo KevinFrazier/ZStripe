@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZStripe Cafe — Poblacion, Lantapan, Bukidnon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --espresso:#3D2817;
+    --espresso-deep:#26170D;
+    --caramel:#A87045;
+    --caramel-soft:#C89674;
+    --cream:#F5EDE0;
+    --cream-soft:#FBF7F1;
+    --forest:#4A6741;
+    --forest-soft:#6B8762;
+    --line:rgba(61,40,23,.14);
+    --shadow-soft: 0 1px 2px rgba(38,23,13,.06), 0 12px 30px rgba(38,23,13,.08);
+    --shadow-lift: 0 2px 4px rgba(38,23,13,.08), 0 24px 60px rgba(38,23,13,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--cream-soft);color:var(--espresso);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--caramel);color:#fff}
+
+  .serif{font-family:'Playfair Display',serif;font-weight:600;letter-spacing:-.01em;line-height:1.1}
+  .script{font-family:'Caveat',cursive;font-weight:700}
+  .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--caramel);font-weight:600}
+
+  /* ───────────────  NAV  ─────────────── */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    backdrop-filter:blur(14px) saturate(140%);
+    background:rgba(251,247,241,.82);
+    border-bottom:1px solid transparent;
+    transition:border-color .3s, background .3s;
+  }
+  .nav.scrolled{border-bottom-color:var(--line);background:rgba(251,247,241,.94)}
+  .nav-inner{max-width:1280px;margin:0 auto;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand-mark{
+    width:48px;height:48px;border-radius:8px;
+    background:transparent;color:var(--cream-soft);
+    display:grid;place-items:center;overflow:hidden;
+  }
+  .brand-mark img{width:100%;height:100%;object-fit:contain;display:block}
+  .brand-name{font-family:'Playfair Display',serif;font-weight:600;font-size:20px;letter-spacing:-.01em}
+  .brand-name em{font-style:italic;color:var(--caramel);font-weight:500}
+  .nav-links{display:flex;gap:36px;font-size:14px;font-weight:500;color:var(--espresso)}
+  .nav-links a{position:relative;padding:6px 0;opacity:.78;transition:opacity .2s}
+  .nav-links a:hover{opacity:1}
+  .nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--caramel);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+  .nav-links a:hover::after{transform:scaleX(1)}
+  .nav-cta{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--espresso);color:var(--cream-soft);
+    padding:10px 18px;border-radius:999px;font-size:13px;font-weight:600;letter-spacing:.02em;
+    transition:transform .2s, background .2s;
+  }
+  .nav-cta:hover{background:var(--caramel);transform:translateY(-1px)}
+  .nav-cta::after{content:"→";font-weight:400}
+  @media(max-width:780px){.nav-links{display:none}}
+
+  /* ───────────────  HERO  ─────────────── */
+  .hero{
+    position:relative;
+    padding:140px 32px 80px;
+    overflow:hidden;
+    background:
+      radial-gradient(60% 80% at 80% 20%, rgba(168,112,69,.08), transparent 70%),
+      radial-gradient(50% 60% at 10% 90%, rgba(74,103,65,.06), transparent 70%),
+      var(--cream-soft);
+  }
+  .hero-bg-photo{
+    position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:url('images/exterior-open.jpg') center/cover no-repeat;
+    opacity:.32;
+    filter:sepia(.18) contrast(1.02) saturate(.9);
+    animation:heroDrift 30s ease-in-out infinite alternate;
+  }
+  .hero-bg-photo::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(115deg, rgba(251,247,241,.92) 0%, rgba(251,247,241,.7) 45%, rgba(251,247,241,.4) 100%);
+  }
+  @keyframes heroDrift{0%{transform:scale(1.05) translate(0,0)}100%{transform:scale(1.12) translate(-1.5%,1%)}}
+  .hero-grid{
+    max-width:1280px;margin:0 auto;
+    position:relative;
+  }
+  .hero-content{position:relative;z-index:1}
+  .hero-headline{display:flex;align-items:center;justify-content:space-between;gap:clamp(24px,3vw,48px)}
+  .hero-headline h1{flex:1 1 auto;min-width:0;margin:0}
+  .hero-headline .hero-logo-inline{
+    flex:0 0 auto;width:clamp(350px,28vw,380px);height:auto;display:block;
+    filter:drop-shadow(0 16px 32px rgba(38,23,13,.22));
+    animation:logoFloat 8s ease-in-out infinite alternate;
+  }
+  .hero-nowrap{white-space:nowrap}
+  @media(max-width:720px){
+    .hero-headline{flex-direction:column;align-items:center;gap:32px}
+    .hero-headline h1{flex:none;width:100%;min-width:0;text-align:center}
+    .hero h1{font-size:clamp(30px,8vw,60px)}
+    .hero-headline .hero-logo-inline{flex:none;width:min(55vw,200px)}
+    .hero-nowrap{white-space:normal}
+  }
+  .hero-logo-bg{display:none}
+  @keyframes logoFloat{0%{transform:translateY(0) rotate(-2deg)}100%{transform:translateY(-8px) rotate(2deg)}}
+  .hero-grid > div:first-child, .hero-photo{position:relative;z-index:1}
+  .hero h1{
+    font-size:clamp(36px,5vw,68px);
+    letter-spacing:-.02em;
+    line-height:1;
+    margin:8px 0 18px;
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .hero h1 em{font-style:italic;color:var(--caramel);font-weight:400}
+  .hero .lede{
+    font-size:19px;line-height:1.6;color:rgba(38,23,13,.74);
+    max-width:520px;text-wrap:pretty;
+  }
+  .hero-actions{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 26px;border-radius:999px;font-size:15px;font-weight:600;
+    transition:transform .2s, background .2s, color .2s, border-color .2s;
+    cursor:pointer;border:none;
+  }
+  .btn-primary{background:var(--espresso);color:var(--cream-soft)}
+  .btn-primary:hover{background:var(--caramel);transform:translateY(-1px)}
+  .btn-ghost{background:transparent;color:var(--espresso);border:1.5px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--espresso);transform:translateY(-1px)}
+
+  .hero-meta{display:flex;gap:32px;margin-top:48px;padding-top:32px;border-top:1px solid var(--line);flex-wrap:wrap}
+  .hero-meta div{display:flex;flex-direction:column;gap:4px}
+  .hero-meta .k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--caramel);font-weight:600}
+  .hero-meta .v{font-size:15px;font-weight:500;color:var(--espresso)}
+
+  /* hero photo composition */
+  .hero-photo{position:relative;aspect-ratio:4/5;border-radius:8px}
+  .hero-photo .frame{
+    position:absolute;inset:0;border-radius:8px;overflow:hidden;
+    background:#ddd;box-shadow:var(--shadow-lift);
+  }
+  .hero-photo .frame img{width:100%;height:100%;object-fit:cover}
+  .hero-photo .badge{
+    position:absolute;bottom:-30px;left:-30px;z-index:3;
+    background:var(--cream-soft);
+    padding:18px 22px;border-radius:8px;
+    box-shadow:var(--shadow-lift);
+    display:flex;align-items:center;gap:14px;
+    border:1px solid var(--line);
+  }
+  .hero-photo .badge .dot{width:10px;height:10px;border-radius:50%;background:#48b04a;box-shadow:0 0 0 4px rgba(72,176,74,.18);animation:pulse 2s infinite}
+  .hero-photo .badge .text{font-size:13px;line-height:1.3}
+  .hero-photo .badge .text strong{display:block;font-size:14px;font-weight:600}
+  .hero-photo .badge .text span{color:rgba(38,23,13,.6)}
+  @keyframes pulse{50%{box-shadow:0 0 0 8px rgba(72,176,74,0)}}
+
+  .hero-photo .stamp{
+    position:absolute;top:-22px;right:-22px;z-index:3;
+    width:128px;height:128px;border-radius:50%;
+    background:var(--forest);color:var(--cream-soft);
+    display:grid;place-items:center;text-align:center;
+    font-family:'Playfair Display',serif;font-style:italic;font-size:13px;line-height:1.25;
+    transform:rotate(8deg);
+    box-shadow:var(--shadow-soft);
+    animation:slowSpin 28s linear infinite;
+  }
+  .stamp-inner{
+    width:108px;height:108px;border:1px dashed rgba(255,255,255,.45);border-radius:50%;
+    display:grid;place-items:center;padding:14px;
+  }
+  .stamp em{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-style:normal;font-weight:600;margin-bottom:2px;opacity:.85}
+  @keyframes slowSpin{to{transform:rotate(368deg)}}
+
+  @media(max-width:980px){
+    .hero{padding-top:120px}
+    .hero-grid{grid-template-columns:1fr;gap:60px}
+    .hero-photo{max-width:480px;margin:0 auto;width:100%}
+  }
+
+  /* ───────────────  SECTION SCAFFOLD  ─────────────── */
+  section{padding:60px 30px;position:relative}
+  .wrap{max-width:1280px;margin:0 auto}
+  .section-head{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;margin-bottom:64px}
+  .section-head .eyebrow{margin-bottom:14px;display:block}
+  .section-head h2{font-size:clamp(36px,5vw,60px);max-width:680px}
+  .section-head p{max-width:380px;color:rgba(38,23,13,.7);font-size:15px;line-height:1.65}
+  @media(max-width:760px){.section-head{grid-template-columns:1fr}}
+
+  /* ───────────────  MISSION  ─────────────── */
+  .mission{background:var(--espresso);color:var(--cream-soft);position:relative;overflow:hidden;isolation:isolate}
+  .mission .bg-photos{position:absolute;inset:0;z-index:0;pointer-events:none}
+  .mission .bg-photos figure{position:absolute;overflow:hidden;border-radius:6px;box-shadow:0 30px 60px rgba(0,0,0,.5),0 0 0 6px rgba(245,237,224,.08);will-change:transform;transition:opacity .8s ease}
+  .mission .bg-photos figure::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(38,23,13,.15),rgba(38,23,13,.55));z-index:1}
+  .mission .bg-photos img{width:100%;height:100%;object-fit:cover;filter:sepia(.25) contrast(1.05) brightness(.85);will-change:transform;animation:kenBurns 22s ease-in-out infinite alternate}
+  .mission .bg-photos .p1{top:4%;left:-4%;width:26%;aspect-ratio:3/4;animation:driftA 18s ease-in-out infinite alternate}
+  .mission .bg-photos .p2{top:-2%;right:-3%;width:24%;aspect-ratio:4/3;animation:driftB 22s ease-in-out infinite alternate}
+  .mission .bg-photos .p3{bottom:-4%;left:10%;width:22%;aspect-ratio:4/5;animation:driftC 20s ease-in-out infinite alternate}
+  .mission .bg-photos .p4{bottom:6%;right:-2%;width:28%;aspect-ratio:3/4;animation:driftD 24s ease-in-out infinite alternate}
+  .mission .bg-photos .p1 img{animation-delay:-3s}
+  .mission .bg-photos .p2 img{animation-delay:-9s}
+  .mission .bg-photos .p3 img{animation-delay:-14s}
+  .mission .bg-photos .p4 img{animation-delay:-19s}
+  @keyframes driftA{0%{transform:rotate(-9deg) translate(0,0) scale(1)}100%{transform:rotate(-5deg) translate(18px,-22px) scale(1.04)}}
+  @keyframes driftB{0%{transform:rotate(7deg) translate(0,0) scale(1)}100%{transform:rotate(4deg) translate(-22px,16px) scale(1.05)}}
+  @keyframes driftC{0%{transform:rotate(6deg) translate(0,0) scale(1)}100%{transform:rotate(2deg) translate(24px,-12px) scale(1.03)}}
+  @keyframes driftD{0%{transform:rotate(-6deg) translate(0,0) scale(1)}100%{transform:rotate(-2deg) translate(-18px,-20px) scale(1.05)}}
+  @keyframes kenBurns{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.18) translate(-3%,2%)}}
+  @media (prefers-reduced-motion: reduce){
+    .mission .bg-photos figure,.mission .bg-photos img{animation:none}
+  }
+  .mission::before{
+    content:"";position:absolute;inset:0;z-index:1;
+    background:
+      radial-gradient(50% 60% at 50% 50%, rgba(38,23,13,.55), rgba(38,23,13,.95) 80%),
+      radial-gradient(40% 60% at 100% 0%, rgba(168,112,69,.18), transparent 70%),
+      radial-gradient(30% 50% at 0% 100%, rgba(74,103,65,.16), transparent 70%);
+    pointer-events:none;
+  }
+  .mission .wrap{position:relative;z-index:2}
+  .mission .eyebrow{color:var(--caramel-soft)}
+  .mission .quote-mark{
+    font-family:'Playfair Display',serif;font-style:italic;
+    font-size:200px;line-height:.8;color:var(--caramel);opacity:.4;
+    position:absolute;top:80px;left:32px;pointer-events:none;
+  }
+  .mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:72px}
+  .mv-card{
+    border-top:1px solid rgba(245,237,224,.18);
+    padding-top:32px;
+  }
+  .mv-card .label{font-family:'Caveat',cursive;font-size:32px;color:var(--caramel-soft);margin-bottom:16px;display:block}
+  .mv-card blockquote{
+    font-family:'Playfair Display',serif;font-style:italic;font-weight:400;
+    font-size:clamp(20px,2vw,26px);line-height:1.45;color:var(--cream-soft);
+    text-wrap:pretty;
+  }
+  @media(max-width:760px){.mv-grid{grid-template-columns:1fr;gap:36px}}
+
+  /* ───────────────  VALUES / STORY  ─────────────── */
+  .story-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:center}
+  .story-text{display:flex;flex-direction:column;gap:22px;text-align:left}
+  .story-text p{font-size:17px;line-height:1.8;color:rgba(38,23,13,.78);margin:0;text-wrap:pretty}
+  .story-text .story-lead{font-family:'Playfair Display',serif;font-size:clamp(22px,2.4vw,28px);line-height:1.4;color:var(--espresso);font-style:italic;font-weight:500}
+  .story-text strong{color:var(--espresso);font-weight:600}
+  .story-text em{color:var(--caramel);font-style:italic;font-weight:500}
+  .story-text .story-lead::first-letter{
+    font-family:'Playfair Display',serif;font-size:64px;line-height:.9;
+    float:left;padding:6px 12px 0 0;color:var(--caramel);font-weight:600;font-style:italic;
+  }
+  .story-hero{position:relative;display:grid;grid-template-columns:1fr;gap:0;max-width:280px;margin:0 auto}
+  .story-hero-img{position:relative;border-radius:8px;overflow:hidden;box-shadow:var(--shadow-lift);aspect-ratio:4/5;margin:0}
+  .story-hero-img img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s ease}
+  .story-hero-img:hover img{transform:scale(1.04)}
+  .story-hero-tile{position:absolute;bottom:-20px;left:-20px;width:48%;aspect-ratio:1/1;border-radius:6px;overflow:hidden;border:4px solid var(--cream-soft);box-shadow:var(--shadow-lift);margin:0;background:#ddd}
+  .story-hero-tile img{width:100%;height:100%;object-fit:cover}
+  .story-hero-caption{position:absolute;top:-16px;right:-8px;background:var(--cream-soft);padding:10px 14px;border-radius:6px;box-shadow:var(--shadow-soft);transform:rotate(3deg);border:1px solid var(--line)}
+  @media(max-width:980px){
+    .story-hero{margin-top:24px;padding-bottom:48px;padding-left:32px}
+  }
+  @media(max-width:980px){.story-grid{grid-template-columns:1fr;gap:48px}}
+
+  /* values pills */
+  .pillar-row{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:80px;
+  }
+  .pillar{
+    padding:32px 24px;border:1px solid var(--line);border-radius:8px;background:var(--cream-soft);
+    transition:transform .3s, box-shadow .3s, border-color .3s;
+  }
+  .pillar:hover{transform:translateY(-4px);box-shadow:var(--shadow-soft);border-color:var(--caramel)}
+  .pillar .num{font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--caramel);margin-bottom:18px;display:block}
+  .pillar h4{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;margin-bottom:10px}
+  .pillar p{font-size:14px;line-height:1.6;color:rgba(38,23,13,.7)}
+  @media(max-width:760px){.pillar-row{grid-template-columns:1fr 1fr}}
+  @media(max-width:480px){.pillar-row{grid-template-columns:1fr}}
+
+  /* ───────────────  MENU TASTE  ─────────────── */
+  .menu{background:var(--cream)}
+  /* facebook embed wrapper */
+  .fb-embed{
+    position:relative;width:100%;max-width:520px;margin:0 auto;
+    background:var(--cream-soft);
+    border-radius:14px;
+    box-shadow:0 1px 2px rgba(38,23,13,.06), 0 30px 60px -20px rgba(38,23,13,.22);
+    border:1px solid var(--line);
+    padding:18px;
+    transition:transform .4s ease, box-shadow .4s ease;
+  }
+  .fb-embed:hover{transform:translateY(-3px);box-shadow:0 1px 2px rgba(38,23,13,.06), 0 36px 70px -20px rgba(38,23,13,.28)}
+  .fb-embed::before, .fb-embed::after{
+    content:"";position:absolute;top:-7px;width:14px;height:14px;border-radius:50%;
+    background:var(--caramel);box-shadow:0 2px 6px rgba(38,23,13,.18);
+  }
+  .fb-embed::before{left:28px}
+  .fb-embed::after{right:28px}
+  .fb-embed-head{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:6px 8px 14px;border-bottom:1px dashed var(--line);margin-bottom:14px;
+  }
+  .fb-embed-head .left{display:flex;align-items:center;gap:10px}
+  .fb-embed-head .pulse{width:8px;height:8px;border-radius:50%;background:#48b04a;box-shadow:0 0 0 4px rgba(72,176,74,.18);animation:pulse 2s infinite}
+  .fb-embed-head .label{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--caramel);font-weight:600}
+  .fb-embed-head .handle{font-family:'Caveat',cursive;font-size:24px;color:var(--espresso);line-height:1}
+  .fb-embed-frame{
+    position:relative;height:380px;border-radius:8px;overflow:hidden;
+    background:linear-gradient(180deg, var(--cream-soft), #fff);
+    border:1px solid var(--line);
+  }
+  .fb-embed-frame iframe{border:none;width:100%;height:100%;display:block}
+  .fb-embed-foot{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:14px 8px 4px;font-size:12px;color:rgba(38,23,13,.55);
+  }
+  .fb-embed-foot a{color:var(--caramel);font-weight:600;border-bottom:1px solid currentColor;padding-bottom:1px}
+  .menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .menu-card{
+    background:var(--cream-soft);border-radius:8px;overflow:hidden;
+    border:1px solid var(--line);
+    transition:transform .3s ease, box-shadow .3s;
+  }
+  .menu-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lift)}
+  .menu-card .photo{aspect-ratio:4/3;overflow:hidden;background:#ddd;position:relative}
+  .menu-card .photo img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+  .menu-card:hover .photo img{transform:scale(1.06)}
+  .menu-card .body{padding:22px 24px 26px}
+  .menu-card .tag{
+    display:inline-block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--forest);font-weight:600;margin-bottom:8px;
+  }
+  .menu-card h4{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;margin-bottom:6px;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .menu-card h4 span{font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:var(--caramel)}
+  .menu-card p{font-size:14px;line-height:1.55;color:rgba(38,23,13,.7)}
+  @media(max-width:880px){.menu-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.menu-grid{grid-template-columns:1fr}}
+
+  .menu-foot{display:flex;justify-content:space-between;align-items:center;margin-top:48px;padding-top:32px;border-top:1px solid var(--line);flex-wrap:wrap;gap:20px}
+  .menu-foot .note{font-family:'Playfair Display',serif;font-style:italic;font-size:18px;color:rgba(38,23,13,.7)}
+
+  /* ───────────────  GALLERY (the room) ─────────────── */
+  .room-grid{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    grid-auto-rows:140px;
+    gap:14px;
+  }
+  .room-grid figure{overflow:hidden;border-radius:6px;background:#ddd;position:relative}
+  .room-grid img{width:100%;height:100%;object-fit:cover;transition:transform .8s}
+  .room-grid figure:hover img{transform:scale(1.04)}
+  .room-grid .a{grid-column:span 3;grid-row:span 3}
+  .room-grid .b{grid-column:span 3;grid-row:span 2}
+  .room-grid .c{grid-column:span 2;grid-row:span 2}
+  .room-grid .d{grid-column:span 4;grid-row:span 2}
+  .room-grid .e{grid-column:span 2;grid-row:span 2}
+  .room-grid .f{grid-column:span 4;grid-row:span 2}
+  @media(max-width:760px){
+    .room-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:160px}
+    .room-grid .a,.room-grid .b,.room-grid .c,.room-grid .d,.room-grid .e,.room-grid .f{grid-column:span 1;grid-row:span 2}
+  }
+
+  /* ───────────────  VISIT (contact)  ─────────────── */
+  .visit{background:var(--espresso-deep);color:var(--cream-soft);position:relative;overflow:hidden}
+  .visit::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(50% 70% at 90% 50%, rgba(168,112,69,.15), transparent 70%);
+  }
+  .visit .wrap{position:relative;z-index:1}
+  .visit-grid{display:grid;grid-template-columns:1fr;gap:80px;align-items:start;max-width:780px;}
+  .visit h2{font-size:clamp(40px,5.5vw,68px);margin-bottom:24px;color:var(--cream-soft)}
+  .visit h2 em{color:var(--caramel-soft);font-style:italic;font-weight:400}
+  .visit .sub{font-size:17px;line-height:1.65;color:rgba(245,237,224,.72);max-width:520px;margin-bottom:48px}
+
+  .info-list{display:flex;flex-direction:column;gap:28px}
+  .info-row{display:grid;grid-template-columns:120px 1fr;gap:24px;padding-bottom:28px;border-bottom:1px solid rgba(245,237,224,.12);align-items:start}
+  .info-row:last-child{border-bottom:none;padding-bottom:0}
+  .info-row .lbl{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--caramel-soft);font-weight:600;padding-top:4px}
+  .info-row .val{font-size:17px;line-height:1.55;color:var(--cream-soft);font-weight:500}
+  .info-row .val small{display:block;font-size:13px;color:rgba(245,237,224,.6);font-weight:400;margin-top:4px}
+  .info-row .val a{border-bottom:1px solid var(--caramel-soft);transition:color .2s}
+  .info-row .val a:hover{color:var(--caramel-soft)}
+
+  .visit-card{
+    background:rgba(245,237,224,.04);
+    border:1px solid rgba(245,237,224,.12);
+    border-radius:10px;padding:36px;
+    backdrop-filter:blur(10px);
+  }
+  .visit-card h3{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;margin-bottom:6px}
+  .visit-card .tagline{font-family:'Caveat',cursive;font-size:24px;color:var(--caramel-soft);margin-bottom:28px;display:block}
+  .hours-block{margin-bottom:8px;padding:24px 0;border-top:1px dashed rgba(245,237,224,.14);border-bottom:1px dashed rgba(245,237,224,.14);text-align:center;margin-bottom:24px}
+  .hours-label{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--caramel-soft);font-weight:600;display:block;margin-bottom:10px}
+  .hours-time{font-family:'Playfair Display',serif;font-style:italic;font-size:32px;color:var(--cream-soft);margin-bottom:18px}
+  .visit-card .open-now{
+    display:flex;align-items:center;gap:10px;font-size:13px;
+    padding:14px 18px;background:rgba(72,176,74,.12);border:1px solid rgba(72,176,74,.3);border-radius:6px;color:#9adfb0;
+  }
+  .visit-card .open-now .dot{width:8px;height:8px;border-radius:50%;background:#48b04a;animation:pulse 2s infinite}
+
+  .fb-btn{
+    display:inline-flex;align-items:center;justify-content:center;margin-top:36px;
+    width:56px;height:56px;background:var(--caramel);color:var(--espresso-deep);
+    border-radius:50%;
+    transition:transform .2s, background .2s;
+  }
+  .fb-btn:hover{transform:translateY(-2px);background:var(--caramel-soft)}
+  .fb-btn svg{width:26px;height:26px}
+
+  @media(max-width:980px){.visit-grid{grid-template-columns:1fr;gap:60px}}
+
+  /* ───────────────  FOOTER  ─────────────── */
+  footer{padding:48px 32px;background:var(--espresso-deep);color:rgba(245,237,224,.5);font-size:13px;border-top:1px solid rgba(245,237,224,.06)}
+  .foot-inner{max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+  footer .small{font-family:'Playfair Display',serif;font-style:italic}
+
+  /* utility */
+  .scroll-fade{opacity:0;transform:translateY(20px);transition:opacity .8s ease, transform .8s ease}
+  .scroll-fade.in{opacity:1;transform:none}
+</style>
+</head>
+<body style="background-color: rgb(65, 65, 65)">
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <div class="brand-mark"><img src="images/logo-badge.png" alt=""></div>
+      <div class="brand-name">ZStripe <em>Cafe</em></div>
+    </a>
+    <div style="display: flex;align-items: center;">
+      <div class="nav-links">
+        <a href="#mission">Mission</a>
+        <a href="#story">Our Story</a>
+        <a href="#menu">Social</a>
+      </div>
+      <a class="nav-cta" href="#visit">Find Us</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<header class="hero" id="top">
+  <div class="hero-bg-photo" aria-hidden="true"></div>
+  <div class="hero-grid">
+    <div class="hero-content">
+      
+      <div class="hero-headline">
+        <h1>
+          <span class="eyebrow">Poblacion · Lantapan · Bukidnon</span>
+          <span style="display:block">A daily ritual</span>
+          <span class="hero-nowrap" style="display:block">A slice of <em>happiness.</em></span>
+        </h1>
+        <img class="hero-logo-inline" src="images/logo-badge.png" alt="ZStripe Cafe logo">
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════ MISSION & VISION ═══════════ -->
+<section class="mission" id="mission">
+  <div class="bg-photos">
+    <figure class="p1"><img src="images/group-table.jpg" alt=""></figure>
+    <figure class="p2"><img src="images/exterior-open.jpg" alt=""></figure>
+    <figure class="p3"><img src="images/three-friends.jpg" alt=""></figure>
+    <figure class="p4"><img src="images/teapot-couple.jpg" alt=""></figure>
+  </div>
+  <div class="quote-mark">"</div>
+  <div class="wrap">
+    <span class="eyebrow">What we believe</span>
+    <h2 class="serif" style="font-size:clamp(18px,3.2vw,44px);margin-top:14px;white-space:nowrap">It's more than a drink — it's a moment of <em style="color:var(--caramel-soft);font-weight:400">connection.</em></h2>
+
+    <div class="mv-grid">
+      <div class="mv-card">
+        <span class="label">Our Mission</span>
+        <blockquote>"Be a vibrant hub where neighbors connect over great coffee or tea, fostering genuine relationships and a relaxing atmosphere to serve our community."</blockquote>
+      </div>
+      <div class="mv-card">
+        <span class="label">Our Vision</span>
+        <blockquote>"Be the premier destination for coffee and tea lovers in Lantapan and throughout Bukidnon — a welcoming space where every cup brings joy, connection, and inspiration."</blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ STORY / VALUES ═══════════ -->
+<section id="story" style="background:var(--cream-soft)">
+  <div class="wrap">
+    <div class="section-head">
+      <div style="color: rgb(168, 112, 69)">
+        <span class="eyebrow">Our Story</span>
+        <h2 class="serif">Brewed for <em style="font-style:italic;color:var(--caramel)">everyone.</em></h2>
+      </div>
+      <p></p>
+    </div>
+
+    <div class="story-grid" style="grid-template-columns:1fr;max-width:780px;">
+      <div class="story-text">
+        <p>Born in <strong>Poblacion, Lantapan Bukidnon</strong>, we believe great coffee shouldn't break the bank. Quality meets affordability — no compromise.</p>
+        <p>From classic brews to specialties, there's something for every taste. <em>Community matters here.</em> We support local suppliers whenever possible — every cup keeps our passion, and our neighborhood, brewing.</p>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+<!-- ═══════════ SOCIAL / FACEBOOK ═══════════ -->
+<section class="menu" id="menu">
+  <div class="wrap">
+
+    <div class="fb-embed">
+      <div class="fb-embed-head">
+        <div class="left"><span class="pulse"></span><span class="label">Live · Facebook</span></div>
+        <span class="handle">@zstripecafe</span>
+      </div>
+      <div class="fb-embed-frame">
+        <iframe
+          src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61586757321907&tabs=timeline&width=500&height=700&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false"
+          width="500" height="700"
+          scrolling="yes" frameborder="0" allowfullscreen="true"
+          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+        </iframe>
+      </div>
+      <div class="fb-embed-foot">
+        <span></span>
+        <a href="https://www.facebook.com/profile.php?id=61586757321907" target="_blank" rel="noopener">Open page ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ VISIT ═══════════ -->
+<section class="visit" id="visit">
+  <div class="wrap">
+    <div class="visit-grid">
+      <div>
+        <a href="https://www.facebook.com/profile.php?id=61586757321907" target="_blank" rel="noopener" class="fb-btn" aria-label="Visit our Facebook page">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <p class="sub"></p>
+        <div class="info-list">
+          <div class="info-row">
+            <span class="lbl">Address</span>
+            <span class="val">P1A Poblacion, Lantapan, Bukidnon<small>Look for the giant teapot — you can't miss it.</small></span>
+          </div>
+          <div class="info-row">
+            <span class="lbl">Hours</span>
+            <span class="val">1:00 PM — 7:00 PM, daily<small>Holiday hours announced on Facebook.</small></span>
+          </div>
+        </div>
+
+      </div>
+
+      <aside class="visit-card" style="display:none"></aside>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Nav shadow on scroll
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 20);
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if(id.length<2) return;
+      const el = document.querySelector(id);
+      if(el){ e.preventDefault(); window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 70, behavior:'smooth'}); }
+    });
+  });
+
+  // Mission collage — cycle photos & subtle parallax
+  (function(){
+    const pool = ['images/group-table.jpg','images/exterior-open.jpg','images/three-friends.jpg','images/teapot-couple.jpg','images/staff.jpg','images/drinks-strawberry-matcha.jpg','images/oreo-matcha-chocolate.jpg'];
+    const collage = document.getElementById('missionCollage');
+    if(!collage) return;
+    const figures = collage.querySelectorAll('figure img');
+    let idx = figures.length;
+    setInterval(()=>{
+      const target = figures[Math.floor(Math.random()*figures.length)];
+      const next = pool[idx % pool.length]; idx++;
+      if(target.src.endsWith(next)) return;
+      target.style.transition='opacity .8s ease';
+      target.style.opacity='0';
+      setTimeout(()=>{ target.src = next; target.style.opacity='1'; }, 800);
+    }, 4200);
+    const mission = document.getElementById('mission');
+    window.addEventListener('scroll', ()=>{
+      const r = mission.getBoundingClientRect();
+      const y = (r.top + r.height/2 - window.innerHeight/2) * 0.08;
+      collage.style.transform = `translateY(${y}px)`;
+    }, {passive:true});
+  })();
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(en => { if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, {threshold:.12});
+  document.querySelectorAll('.section-head, .mv-card, .pillar, .menu-card, .visit-card, .info-row').forEach(el => {
+    el.classList.add('scroll-fade'); io.observe(el);
+  });
+</script>
+</body>
+</html>
