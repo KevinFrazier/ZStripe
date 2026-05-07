@@ -29,7 +29,8 @@
 
   .serif{font-family:'Oswald',sans-serif;font-weight:700;letter-spacing:.02em;line-height:1.05;text-transform:uppercase}
   .script{font-family:'Caveat',cursive;font-weight:700}
-  .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--caramel);font-weight:600}
+  .eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--caramel);font-weight:600;display:inline-flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:24px;height:2px;background:currentColor;display:block;flex-shrink:0}
 
   /* ───────────────  NAV  ─────────────── */
   .nav{
@@ -68,42 +69,54 @@
   /* ───────────────  HERO  ─────────────── */
   .hero{
     position:relative;
-    padding:140px 32px 80px;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    padding:120px 48px 80px;
     overflow:hidden;
-    background:
-      radial-gradient(60% 80% at 80% 20%, rgba(168,112,69,.08), transparent 70%),
-      radial-gradient(50% 60% at 10% 90%, rgba(74,103,65,.06), transparent 70%),
-      var(--cream-soft);
+    background:var(--espresso-deep);
   }
   .hero-bg-photo{
     position:absolute;inset:0;z-index:0;pointer-events:none;
     background:url('images/exterior-open.jpg') center/cover no-repeat;
-    opacity:.32;
-    filter:sepia(.18) contrast(1.02) saturate(.9);
+    opacity:.42;
+    filter:sepia(.35) contrast(1.08) saturate(.75) brightness(.9);
     animation:heroDrift 30s ease-in-out infinite alternate;
   }
   .hero-bg-photo::after{
     content:"";position:absolute;inset:0;
-    background:linear-gradient(115deg, rgba(251,247,241,.92) 0%, rgba(251,247,241,.7) 45%, rgba(251,247,241,.4) 100%);
+    background:linear-gradient(120deg, rgba(26,15,6,.97) 0%, rgba(38,23,13,.88) 45%, rgba(38,23,13,.5) 100%);
+  }
+  /* unique element: giant faded brand watermark */
+  .hero-watermark{
+    position:absolute;bottom:-.08em;left:-.02em;
+    font-family:'Oswald',sans-serif;font-weight:700;
+    font-size:clamp(140px,24vw,340px);
+    text-transform:uppercase;letter-spacing:-.01em;
+    color:rgba(200,150,116,.055);
+    pointer-events:none;user-select:none;
+    z-index:0;line-height:1;white-space:nowrap;
   }
   @keyframes heroDrift{0%{transform:scale(1.05) translate(0,0)}100%{transform:scale(1.12) translate(-1.5%,1%)}}
   .hero-grid{
     max-width:1280px;margin:0 auto;
-    position:relative;
+    position:relative;z-index:1;width:100%;
   }
   .hero-content{position:relative;z-index:1}
+  .hero .eyebrow{color:var(--caramel-soft)}
+  .hero .eyebrow::before{background:var(--caramel-soft)}
   .hero-headline{display:flex;align-items:center;justify-content:space-between;gap:clamp(24px,3vw,48px)}
   .hero-headline h1{flex:1 1 auto;min-width:0;margin:0}
   .hero-headline .hero-logo-inline{
-    flex:0 0 auto;width:clamp(350px,28vw,380px);height:auto;display:block;
-    filter:drop-shadow(0 16px 32px rgba(38,23,13,.22));
+    flex:0 0 auto;width:clamp(260px,26vw,360px);height:auto;display:block;
+    filter:drop-shadow(0 24px 48px rgba(0,0,0,.65));
     animation:logoFloat 8s ease-in-out infinite alternate;
   }
   .hero-nowrap{white-space:nowrap}
   @media(max-width:720px){
     .hero-headline{flex-direction:column;align-items:center;gap:32px}
     .hero-headline h1{flex:none;width:100%;min-width:0;text-align:center}
-    .hero h1{font-size:clamp(30px,8vw,60px)}
+    .hero h1{font-size:clamp(38px,9vw,64px)}
     .hero-headline .hero-logo-inline{flex:none;width:min(55vw,200px)}
     .hero-nowrap{white-space:normal}
   }
@@ -112,12 +125,13 @@
   .hero-grid > div:first-child, .hero-photo{position:relative;z-index:1}
   .hero h1{
     font-family:'Oswald',sans-serif;font-weight:700;
-    font-size:clamp(36px,5vw,68px);
-    letter-spacing:.04em;
+    font-size:clamp(52px,6.5vw,100px);
+    letter-spacing:.05em;
     text-transform:uppercase;
-    line-height:1;
-    margin:8px 0 18px;
+    line-height:.94;
+    margin:16px 0 24px;
     display:flex;flex-direction:column;gap:10px;
+    color:var(--cream-soft);
   }
   .hero h1 em{font-style:normal;color:var(--caramel);font-weight:400}
   .hero .lede{
@@ -180,17 +194,17 @@
   @keyframes slowSpin{to{transform:rotate(368deg)}}
 
   @media(max-width:980px){
-    .hero{padding-top:120px}
+    .hero{padding-top:100px}
     .hero-grid{grid-template-columns:1fr;gap:60px}
     .hero-photo{max-width:480px;margin:0 auto;width:100%}
   }
 
   /* ───────────────  SECTION SCAFFOLD  ─────────────── */
-  section{padding:60px 30px;position:relative}
+  section{padding:80px 48px;position:relative}
   .wrap{max-width:1280px;margin:0 auto}
   .section-head{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;margin-bottom:64px}
   .section-head .eyebrow{margin-bottom:14px;display:block}
-  .section-head h2{font-size:clamp(36px,5vw,60px);max-width:680px}
+  .section-head h2{font-size:clamp(38px,5vw,68px);max-width:700px}
   .section-head p{max-width:380px;color:rgba(38,23,13,.7);font-size:15px;line-height:1.65}
   @media(max-width:760px){.section-head{grid-template-columns:1fr}}
 
@@ -369,7 +383,7 @@
   }
   .visit .wrap{position:relative;z-index:1}
   .visit-grid{display:grid;grid-template-columns:1fr;gap:80px;align-items:start;max-width:780px;}
-  .visit h2{font-size:clamp(40px,5.5vw,68px);margin-bottom:24px;color:var(--cream-soft)}
+  .visit h2{font-size:clamp(44px,6vw,84px);margin-bottom:24px;color:var(--cream-soft);letter-spacing:.04em}
   .visit h2 em{color:var(--caramel-soft);font-style:normal;font-weight:400}
   .visit .sub{font-size:17px;line-height:1.65;color:rgba(245,237,224,.72);max-width:520px;margin-bottom:48px}
 
@@ -443,6 +457,7 @@
 <!-- ═══════════ HERO ═══════════ -->
 <header class="hero" id="top">
   <div class="hero-bg-photo" aria-hidden="true"></div>
+  <div class="hero-watermark" aria-hidden="true">ZSTRIPE</div>
   <div class="hero-grid">
     <div class="hero-content">
       
@@ -469,7 +484,7 @@
   <div class="quote-mark">"</div>
   <div class="wrap">
     <span class="eyebrow">What we believe</span>
-    <h2 class="serif" style="font-size:clamp(18px,3.2vw,44px);margin-top:14px;white-space:nowrap">It's more than a drink — it's a moment of <em style="color:var(--caramel-soft);font-weight:400;font-style:normal">connection.</em></h2>
+    <h2 class="serif" style="font-size:clamp(20px,3vw,42px);margin-top:14px;white-space:nowrap">It's more than a drink — it's a moment of <em style="color:var(--caramel-soft);font-weight:400;font-style:normal">connection.</em></h2>
 
     <div class="mv-grid">
       <div class="mv-card">
